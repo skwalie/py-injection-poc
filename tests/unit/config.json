@@ -1,6 +1,0 @@
-{
-  "tickerServiceUrl": "https://api.coindesk.com/v1/bpi/currentprice.json",
-  "mongoConnectionString": "mongodb://localhost",
-  "mongoPort": 27017,
-  "mongoDbName": "injection-poc"
-}

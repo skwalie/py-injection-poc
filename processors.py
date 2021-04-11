@@ -1,9 +1,10 @@
-import uuid
 from data_store import DataStore
 from datetime import datetime
 from ticker_reader import TickerReader
 from data_frame_provider import DataFrameProvider
 from logger import Logger
+
+import mapper
 
 
 class Processor(object):
@@ -40,24 +41,13 @@ class GetTickersProcessor(Processor):
         return self._ticker_reader.read()
 
 
-class FormatToSeriesProcessor(Processor):
-    def execute(self, subject):
-        return {
-            "Key": uuid.uuid4(),
-            "UtcDate": subject["time"]["updatedISO"],
-            "Asset": "BTC",
-            "PriceUsd": float(subject["bpi"]["USD"]["rate_float"]),
-            "PriceGbp": float(subject["bpi"]["GBP"]["rate_float"]),
-            "PriceEur": float(subject["bpi"]["EUR"]["rate_float"])
-        }
-
-
 class WriteSeriesProcessor(Processor):
     def __init__(self, data_store: DataStore):
         self._data_store = data_store
 
     def execute(self, subject):
-        self._data_store.insert(subject, "tickers")
+        mapped = mapper.map_ticker(subject)
+        self._data_store.insert(mapped, "tickers")
         return subject
 
 

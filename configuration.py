@@ -1,4 +1,4 @@
-from config_reader import ConfigReader
+import json
 from dependency_injector.wiring import inject, Provide
 
 
@@ -15,9 +15,9 @@ class MongoStoreConfiguration(object):
 
 
 class Configuration(object):
-    @inject
-    def __init__(self, config_reader):
-        self._options = config_reader.read_from_file("config.json")
+    def __init__(self):
+        with open("config.json") as config_file:
+            self._options = json.load(config_file)
 
     def get(self, name):
         return self._options[name]

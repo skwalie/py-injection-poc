@@ -4,12 +4,12 @@ from configuration import Configuration
 from data_store import MongoStore
 from data_frame_provider import CursorDataFrameProvider
 from config_reader import JsonConfigReader
-from logger import Logger
+from logger import DefaultLogger
 
 
 class Container(containers.DeclarativeContainer):
-    cfg = Configuration(JsonConfigReader())
-    logger = providers.Factory(Logger)
+    cfg = Configuration()
+    logger = providers.Singleton(DefaultLogger)
     ticker_reader = providers.Singleton(TickerHttpReader, cfg.ticker_reader())
     data_store = providers.Singleton(MongoStore, cfg.data_store())
     data_frame_provider = providers.Singleton(CursorDataFrameProvider)
