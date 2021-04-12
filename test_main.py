@@ -10,7 +10,7 @@ class MainTests(unittest.TestCase):
         self._data_store_mock = Mock()
         self._sut = main
 
-    def run_ticker_reader_when_ticker_is_returned_then_it_should_be_saved_in_datastore(self):
+    def test_run_ticker_reader_when_ticker_is_returned_then_it_should_be_saved_in_datastore(self):
         self._data_store_mock.insert = Mock()
         self._ticker_reader_mock.read.return_value = {
             "time": {
@@ -34,7 +34,7 @@ class MainTests(unittest.TestCase):
         self.assertEqual(0, result)
         self._data_store_mock.insert.assert_called_once()
 
-    def run_ticker_reader_when_ticker_reader_throws_an_exception_then_it_should_not_be_saved_in_datastore(self):
+    def test_run_ticker_reader_when_an_exception_is_thrown_then_datastore_insert_should_not_be_called(self):
         self._data_store_mock.insert = Mock()
         self._ticker_reader_mock.read.side_effect = IOError
 
@@ -42,3 +42,4 @@ class MainTests(unittest.TestCase):
 
         self.assertEqual(-1, result)
         self._data_store_mock.insert.assert_not_called()
+

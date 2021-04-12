@@ -3,7 +3,6 @@ from ticker_reader import TickerHttpReader
 from configuration import Configuration
 from data_store import MongoStore
 from data_frame_provider import CursorDataFrameProvider
-from config_reader import JsonConfigReader
 from logger import DefaultLogger
 
 
